@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Task description -->
+<job maxFilesPerProcess="1" minFilesPerProcess="1" filesPerHour="1" simulateSubmission="false"     >
+
+  <!-- Decription of the task -->
+  <command>
+    source setup.csh
+    root4star -l -q -b jobMacroRun17Sys_smallBBC.C\(\"$INPUTFILE0\",\"Run17FMSSys_smallBBC_$JOBINDEX.root\"\)
+    ls
+  </command>
+
+  <SandBox installer="ZIP">
+    <Package>
+      <File>file:jobMacroRun17Sys_smallBBC.C</File>      
+      <File>file:.sl73_gcc485</File>
+      <File>file:libBrStar/lib/libBrStar.so</File>
+      <File>file:diffAnalysis/lib/libDiffAnalysis.so</File>
+      <File>file:starSim/lib/libStarSim.so</File>
+      <File>file:rootlogon.C</File>         
+      <File>file:polarization_fms_run17.txt</File>         
+      <File>file:run17RPFill_run.list</File>         
+      <File>file:setup.csh</File>           
+      <File>file:database</File>        
+      <File>file:StRoot</File>
+    </Package>
+  </SandBox>
+
+  <!-- Get input files from get_file_lis.pl -->
+  <!--
+  <input
+      URL="catalog:star.bnl.gov?production=P20ic,trgsetupname=pp500_production_2017,filename~st_rp,runnumber[]&run;-&run;,storage!=HPSS,filetype~daq_reco_MuDst" preferStorage="local" singleCopy="true"  nFiles="-1" />
+  <input URL="file:/star/data110/GRID/mudst/pp500_production_2017_rp_P20ic/st_rp*_&run;_*.root" />
+-->
+	<input URL="filelist:/star/data01/pwg/liangxl/myBrightSTAR/NanoDstList.list" />
+
+<!--
+	<input
+      URL="catalog:star.bnl.gov?production=P15ik,trgsetupname=production_pp200trans_2015,filename~st_fms,runnumber[]16073030-16073040,storage!=HPSS" preferStorage="local" singleCopy="true"  nFiles="-1" />
+-->
+<!--
+	<input URL="filelist:/star/data01/pwg/liangxl/myBrightSTAR/run17EEMCdataset/P1/run&run;.list" />
+-->
+
+  <stdout URL="file:/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/stdout-$JOBID.out" />
+  <stderr URL="file:/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/err_$JOBID.out" />
+  <output fromScratch="Run17FMSSys_smallBBC*.root" toURL="file:/star/data01/pwg/liangxl/myBrightSTAR/root_result/Run17FMSAnalysis/"/> 
+  <!-- <output fromScratch="*.root" toURL="file:/star/data01/pwg/liangxl/myBrightSTAR/NanoDst/run17RPEEMC/&fill;/"/> -->
+  <output fromScratch="*.log" toURL="file:/star/data01/pwg/liangxl/BrightSTAR_EMjet/jobOutput/"/>
+
+  <Generator>
+    <Location>./jobs</Location>
+    <ReportLocation>/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/</ReportLocation>
+  </Generator>
+
+</job>

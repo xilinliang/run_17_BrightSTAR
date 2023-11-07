@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Task description -->
+<job maxFilesPerProcess="5" minFilesPerProcess="3" filesPerHour="1" fileListSyntax="xrootd" simulateSubmission="false"     >
+
+  <!-- Decription of the task -->
+  <command>
+    source setup.csh
+    root4star -l -q -b jobMacroNanoDstFMS.C\(\"$FILELIST\",\"Run&run;_$JOBINDEX.root\"\) 
+  </command>
+
+  <SandBox installer="ZIP">
+    <Package>
+      <File>file:jobMacroNanoDstFMS.C</File>      
+      <File>file:.sl73_gcc485</File>
+      <File>file:libBrStar/lib/libBrStar.so</File>
+      <File>file:diffAnalysis/lib/libDiffAnalysis.so</File>
+      <File>file:starSim/lib/libStarSim.so</File>
+      <File>file:rootlogon.C</File>         
+      <File>file:setup.csh</File>           
+      <File>file:database</File>        
+      <File>file:StRoot</File>
+    </Package>
+  </SandBox>
+
+  <!-- Get input files from get_file_lis.pl -->
+
+<!--  <input
+      URL="catalog:star.bnl.gov?production=P16id,trgsetupname=production_pp200trans_2015,filename~st_physics,runnumber[]&runstart;-&runend;,storage!=HPSS,filetype~daq_reco_MuDst" preferStorage="local" singleCopy="true"  nFiles="-1" />
+-->
+<!--
+	<input
+      URL="catalog:star.bnl.gov?production=P15ik,trgsetupname=production_pp200trans_2015,filename~st_fms,runnumber[]16073030-16073040,storage!=HPSS" preferStorage="local" singleCopy="true"  nFiles="-1" />
+-->
+<!--
+	<input URL="filelist:/star/data01/pwg/liangxl/myBrightSTAR/run17EEMCdataset/P1/run&run;.list" />
+	-->
+  <input
+      URL="catalog:star.bnl.gov?production=P22ib,trgsetupname=pp500_production_2017,filename~st_fms,runnumber[]&run;-&run;,storage!=HPSS,filetype~daq_reco_MuDst" preferStorage="local" singleCopy="true"  nFiles="-1" />
+
+  <stdout URL="file:/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/stdout-$JOBID.out" />
+  <stderr URL="file:/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/err_$JOBID.out" />
+  <output fromScratch="NanoDiffJetTree*.root" toURL="file:/star/data01/pwg/liangxl/myBrightSTAR/NanoDst/run17FMSjets/&run;/"/>
+  <output fromScratch="*.log" toURL="file:/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/"/>
+
+  <Generator>
+    <Location>./jobs</Location>
+    <ReportLocation>/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/</ReportLocation>
+  </Generator>
+
+</job>

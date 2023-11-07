@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Task description -->
+<job maxFilesPerProcess="1" filesPerHour="2" nProcesses="2000"     >
+
+  <!-- Decription of the task -->
+  <command>
+    source setup.csh
+    
+    @ cycle = $JOBINDEX + 20002
+    root4star -b -q jobMacroSimAndBfc.C\($cycle,500\)
+    root4star -b -q jobMacroReco.C\($cycle,500\)
+  </command>
+
+  <SandBox installer="ZIP">
+	  <Package>
+	<File>file:jobMacroSimAndBfc.C</File>
+	<File>file:jobMacroReco.C</File>
+      <File>file:.sl73_gcc485</File>
+      <File>file:libBrStar/lib/libBrStar.so</File>
+      <File>file:starSim/lib/libStarSim.so</File>
+      <File>file:diffAnalysis/lib/libDiffAnalysis.so</File>
+      <File>file:rootlogon.C</File>         
+      <File>file:setup.csh</File>           
+      <File>file:database</File>        
+      <File>file:StRoot</File>
+      <File>file:starSim</File>
+    </Package>
+  </SandBox>
+
+  <!-- Get input files from get_file_lis.pl -->
+<!--
+  <input
+      URL="catalog:star.bnl.gov?production=P16id,trgsetupname=production_pp200trans_2015,filename~st_physics,runnumber[]16066015-16066035,storage!=HPSS,filetype~daq_reco_MuDst" preferStorage="local" singleCopy="true"  nFiles="-1" />
+-->
+
+
+  <stdout discard="true" /> 
+  <stderr URL="file:/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/err_$JOBID.out" />
+  <output fromScratch="FmsJet_Run17*.root" toURL="file:/star/data01/pwg/liangxl/myBrightSTAR/root_result/FmsSimJetResult2/"/>
+  <output fromScratch="FmsSim_Run17*.pythia.root" toURL="file:/star/data01/pwg/liangxl/myBrightSTAR/root_result/FmsSimPythiaResult/"/>
+
+  <Generator>
+    <Location>./jobs</Location>
+    <ReportLocation>/star/data05/pwg/liangxl/BrightSTAR_EMjet/jobOutput/</ReportLocation>
+  </Generator>
+
+</job>
