@@ -1,0 +1,56 @@
+//Based on StTriggerFilterMaker
+
+#ifndef TST_RP_FILTER_MAKER_ZEROBIAS_HH
+#define TST_RP_FILTER_MAKER_ZEROBIAS_HH
+
+
+#ifndef StMaker_H
+#include "StMaker.h"
+#endif
+
+#include "StMuDSTMaker/COMMON/StMuRpsCollection.h"
+#include "TH1D.h"
+#include <vector>
+using std::vector;
+
+class StMuDst;
+
+
+class TStRpFilterMaker_zerobias : public StMaker
+{
+    StMuDst *mMuDst;
+    StMuRpsCollection *mRpsMuColl;
+    TH1D* hEvtCount;
+public:
+    TStRpFilterMaker_zerobias(const char *name = "TStRpFilterMaker_zerobias");
+    virtual ~TStRpFilterMaker_zerobias();
+    
+    //virtual void Clear(const char *option="");
+    virtual Int_t Init();
+    //virtual Int_t InitRun(int runnumber);
+    virtual Int_t Make();
+    //virtual Int_t Finish();
+    
+    void addTrigger(unsigned int trigId) { mGoodTriggers.push_back(trigId); }
+    void addVetoTrigger(unsigned int trigId) { mVetoTriggers.push_back(trigId); }
+    void printTriggerId(int v=1) {mPrint=v;}
+
+    const vector<unsigned int> getTriggers() const {return mGoodTriggers;}
+    const vector<unsigned int> getVetoTriggers() const {return mGoodTriggers;}
+
+    void SetRunPeriod(Int_t runPeriod){mRunPeriod = runPeriod;}
+    virtual const char* GetCVS() const
+    {static const char cvs[]="Tag $Name:  $ $Id: TStRpFilterMaker_zerobias.h,v 1.4 2015/09/09 20:29:39 akio Exp $ built " __DATE__ " " __TIME__; return cvs;}
+
+    void SetHist1d(TH1D* hist1d){ hEvtCount = hist1d;}
+private:
+    vector<unsigned int> mGoodTriggers; //!
+    vector<unsigned int> mVetoTriggers; //!
+    int mPrint; //!
+    Int_t mRunPeriod;
+
+    ClassDef(TStRpFilterMaker_zerobias,1)
+};
+
+#endif
+
